@@ -25,26 +25,94 @@ Voici le fichier de la configuration nginx;
 
 ```bash
 stream {
-    upstream backend {
-        server <EC2_Instance_1_IP>:<Port>;
-        server <EC2_Instance_2_IP>:<Port>;
+    upstream mariadb_cluster {
+        server 3.89.200.226:3306;
+        server 3.89.206.239:3306;
     }
 
     server {
         listen 3306;
-        server_name your_domain.com;
-
-        location / {
-            proxy_pass http://backend;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
+        proxy_pass mariadb_cluster;
     }
 }
+
 ```
 
-![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/df90d5dc-4783-421f-9ba2-22ba25a126b2)
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/37274f3a-e7f5-4b12-bb14-b58a0760af78)
+
+
 
 l'endroit inquer c'est partie de la configuration , il faut juste remplacer les adresses IP existantes  par les adresses de vos propres serveurs.
+
+
+
+Vérifier l'orthographe;
+
+
+```bash
+sudo nginx -t
+```
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/481ba606-e668-401f-a36e-ee68e700b599)
+
+
+Redemarer nginx
+
+
+```bash
+sudo systemctl restart nginx
+```
+
+
+Test
+
+
+```bash
+mysql -h <Nginx_Public_IP> -u <load_balancer_user> -p
+```
+
+On peut aussi tester avec workbench
+
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/62f75694-8b5f-4801-8391-9edb56a07ef0)
+
+
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/d0715d07-b9f3-4138-910d-6c2c16a58ed4)
+
+
+
+
+Ensuite cliquer ok;
+
+
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/aff58a81-9e9c-4023-9cda-1ed246739fbc)
+
+
+
+
+
+Cliquer sur continuer anyway;
+
+
+
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/700abc7c-ee82-4cce-996b-a054af3e01b1)
+
+
+
+
+
+![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/1ab30a03-fe8b-4679-ba30-f634d829c08c)
+
+
+
+
+Si vous avez cette image , c'est que votre connexion de la base des données master master à partir de loabalancer nginx a marché au cas contraire veuillez revoir votre configuration;
