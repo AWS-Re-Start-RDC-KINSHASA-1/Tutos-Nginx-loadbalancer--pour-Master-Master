@@ -110,7 +110,6 @@ Cliquer sur continuer anyway;
 
 
 
-![image](https://github.com/AWS-Re-Start-RDC-KINSHASA-1/Tutos-Nginx-loadbalancer--pour-Master-Master/assets/114914329/1ab30a03-fe8b-4679-ba30-f634d829c08c)
 
 
 
